@@ -1,3 +1,8 @@
+import OpenAIClient from '@/lib/OpenAIClient';
+
+const apiKey = process.env.OPENAI_API_KEY!;
+
+
 async function getCompletionDirectly() {
     const url = "https://api.openai.com/v1/chat/completions";
     const params = {
@@ -11,7 +16,7 @@ async function getCompletionDirectly() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+                'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify(params)
         });
@@ -22,4 +27,15 @@ async function getCompletionDirectly() {
     }
 }
 
+const client = new OpenAIClient(apiKey);
+async function getCompletionWithClient() {
+    try {
+        const response = await client.chatCompletion('gpt-3.5-turbo', [{ role: 'user', content: 'What is OpenAPI' }], 1000);
+        console.log(response);
+    } catch (error) {
+        console.error('Error getting completion:', error);
+    }
+}
+
 getCompletionDirectly();
+getCompletionWithClient();
