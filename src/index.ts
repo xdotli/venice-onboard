@@ -37,5 +37,6 @@ async function getCompletionWithClient() {
     }
 }
 
+
 getCompletionDirectly();
 getCompletionWithClient();
